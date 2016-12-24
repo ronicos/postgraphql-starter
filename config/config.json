@@ -1,0 +1,11 @@
+{
+  "host": "localhost",
+  "db": "favz",
+  "owner": {
+    "user": "postgres",
+    "password": "As121212"
+  },
+  "roles": {
+    "admin": "As121212"
+  }
+}

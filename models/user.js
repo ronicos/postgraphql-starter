@@ -1,13 +1,23 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../bin/sequelize';
 
-export const User = sequelize.define('user', {
+const schema = {
   firstName: {
     type: Sequelize.STRING,
     allowNull: false,
     defaultValue: null,
   },
   lastName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: null,
+  },
+  role: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: null,
+  },
+  password: {
     type: Sequelize.STRING,
     allowNull: false,
     defaultValue: null,
@@ -43,6 +53,11 @@ export const User = sequelize.define('user', {
     allowNull: false,
     defaultValue: true,
   },
+  verified: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   createdAt: {
     allowNull: false,
     type: Sequelize.DATE
@@ -51,7 +66,8 @@ export const User = sequelize.define('user', {
     allowNull: false,
     type: Sequelize.DATE
   }
-}, {
+};
+const methods = {
   classMethods: {
     generateToken: function () {
     }
@@ -61,4 +77,9 @@ export const User = sequelize.define('user', {
       return [this.firstName, this.lastName].join(' ');
     }
   }
-});
+};
+const options = {
+  freezeTableName: true // disable pluralization for table name.
+};
+
+export const User = sequelize.define('user', schema, options);
