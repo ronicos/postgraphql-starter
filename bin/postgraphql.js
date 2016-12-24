@@ -8,16 +8,16 @@ const config = {
   port: 5432, //env var: PGPORT
 };
 
-const schemaName = 'favz_public';
+const schemaName = 'demo';
 
 const options = {
   graphiql: true,
   graphqlRoute: '/graphql',
   graphiqlRoute: '/graphiql',
   jwtSecret: 'secret',
-  pgDefaultRole: 'anon',
+  pgDefaultRole: 'anonymous',
   watchPg: true, // re-create graphql schema when db schema changes,
-  jwtPgTypeIdentifier: 'favz_public.jwt_claims',
+  // jwtPgTypeIdentifier: 'favz_public.jwt_claims',
   disableQueryLog: false,
   enableCors: true,
 };

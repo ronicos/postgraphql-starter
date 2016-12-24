@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../bin/sequelize';
+import config from '../../config/config.json';
 
-const schema = {
+const userSchema = {
   firstName: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -26,22 +26,6 @@ const schema = {
     type: Sequelize.STRING,
     allowNull: false,
     defaultValue: null,
-    validate: {
-      isUnique: function (email, done) {
-        User.find({ where: { email }})
-          .done(function (err, user) {
-            if (err) {
-              done(err);
-            }
-
-            if (user) {
-              done(new Error('email already exists'));
-            }
-
-            done();
-          });
-      }
-    }
   },
   age: {
     type: Sequelize.INTEGER,
@@ -67,19 +51,5 @@ const schema = {
     type: Sequelize.DATE
   }
 };
-const methods = {
-  classMethods: {
-    generateToken: function () {
-    }
-  },
-  instanceMethods: {
-    getFullName: function () {
-      return [this.firstName, this.lastName].join(' ');
-    }
-  }
-};
-const options = {
-  freezeTableName: true // disable pluralization for table name.
-};
 
-export const User = sequelize.define('user', schema, options);
+export { userSchema };

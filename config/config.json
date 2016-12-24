@@ -1,6 +1,7 @@
 {
   "host": "localhost",
   "db": "favz",
+  "publicSchema": "demo",
   "owner": {
     "user": "postgres",
     "password": "As121212"

@@ -1,0 +1,49 @@
+[{
+  "firstName": "RoN 1",
+    "lastName": "CoH",
+  "email": "r@n.coh",
+  "age": 22,
+  "active": true,
+  "role": "active_user",
+  "password": "123456"
+}, {
+  "firstName": "RoN 2",
+    "lastName": "CoH",
+  "email": "r@n.coh",
+  "age": 22,
+  "active": true,
+  "role": "active_user",
+  "password": "123456"
+}, {
+  "firstName": "RoN 3",
+    "lastName": "CoH",
+  "email": "r@n.coh",
+  "age": 22,
+  "active": true,
+  "role": "active_user",
+  "password": "123456"
+}, {
+  "firstName": "RoN 4",
+    "lastName": "CoH",
+  "email": "r@n.coh",
+  "age": 22,
+  "active": true,
+  "role": "active_user",
+  "password": "123456"
+}, {
+  "firstName": "guest 1",
+    "lastName": "CoH",
+  "email": "r@n.coh",
+  "age": 22,
+  "active": true,
+  "role": "active_user",
+  "password": "123456"
+}, {
+  "firstName": "guest 2",
+    "lastName": "CoH",
+  "email": "r@n.coh",
+  "age": 22,
+  "active": true,
+  "role": "active_user",
+  "password": "123456"
+}]
