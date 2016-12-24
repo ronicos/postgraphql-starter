@@ -11,6 +11,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var postgraphql = require('./bin/postgraphql');
 
+const { jwt } = require('./bin/jwt');
+
 var app = express();
 
 // view engine setup
@@ -24,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(jwt);
 app.use(postgraphql.pgqlMiddleware);
 
 // app.use('/', index);

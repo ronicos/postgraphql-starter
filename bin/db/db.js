@@ -97,7 +97,7 @@ export const init = () => {
 
               // reset
               // const rules        = ';';
-              populateData.length = 0;
+              // populateData.length = 0;
 
               const tableData = {
                 name,

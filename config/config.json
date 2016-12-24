@@ -8,5 +8,6 @@
   },
   "roles": {
     "admin": "As121212"
-  }
+  },
+  "secret" : "test-secret"
 }

@@ -12,7 +12,7 @@
   "email": "r@n.coh",
   "age": 22,
   "active": true,
-  "role": "active_user",
+  "role": "inactive_user",
   "password": "123456"
 }, {
   "firstName": "RoN 3",
@@ -20,7 +20,7 @@
   "email": "r@n.coh",
   "age": 22,
   "active": true,
-  "role": "active_user",
+  "role": "inactive_user",
   "password": "123456"
 }, {
   "firstName": "RoN 4",
@@ -28,7 +28,7 @@
   "email": "r@n.coh",
   "age": 22,
   "active": true,
-  "role": "active_user",
+  "role": "inactive_user",
   "password": "123456"
 }, {
   "firstName": "guest 1",
@@ -36,7 +36,7 @@
   "email": "r@n.coh",
   "age": 22,
   "active": true,
-  "role": "active_user",
+  "role": "inactive_user",
   "password": "123456"
 }, {
   "firstName": "guest 2",
@@ -44,6 +44,6 @@
   "email": "r@n.coh",
   "age": 22,
   "active": true,
-  "role": "active_user",
+  "role": "inactive_user",
   "password": "123456"
 }]

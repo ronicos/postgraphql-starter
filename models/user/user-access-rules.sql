@@ -6,9 +6,9 @@ ALTER TABLE demo.user ENABLE ROW LEVEL SECURITY;
 -- option 1
 drop policy if exists users_select_unsecure on demo.user;
 create policy users_select_unsecure on demo.user for select
-  using (role = (SELECT CURRENT_USER));
-
--- option 2
-drop policy if exists users_select_unsecure on demo.user;
-create policy users_select_unsecure on demo.user for select
-  using (id::text = (select current_setting('claims.id')));
+  using (role = (select current_setting('jwt.claims.role')));
+--
+---- option 2
+--drop policy if exists users_select_unsecure on demo.user;
+--create policy users_select_unsecure on demo.user for select
+--  using (id::text = (select current_setting('jwt.claims.id')));
