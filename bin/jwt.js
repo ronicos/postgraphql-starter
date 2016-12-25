@@ -5,9 +5,6 @@ const jwt = (req, res, next) => {
   try {
     const token = req.body.token || req.query.token || (req.headers['authorization'] && req.headers['authorization'].length && req.headers['authorization'].split(' ')[1]);
 
-    console.log('token', token);
-    console.log('secret', secret);
-
     if (token) {
 
       return verify(token, secret, (err, decoded) => {
@@ -19,7 +16,6 @@ const jwt = (req, res, next) => {
         }
 
         console.log('token verified');
-        console.log('decoded', decoded);
 
         req.user = decoded;
 

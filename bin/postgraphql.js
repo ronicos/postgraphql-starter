@@ -9,8 +9,6 @@ const config = {
   port: 5432, //env var: PGPORT
 };
 
-console.log('secret', secret);
-
 const options = {
   graphiql: true,
   graphqlRoute: '/graphql',
@@ -23,4 +21,29 @@ const options = {
   enableCors: true,
 };
 
-export const pgqlMiddleware = postgraphql(config, publicSchema, options);
+const pgqlMiddleware = (schema) => (req, res, next) => {
+
+  res.originalEnd = res.end;
+
+  res.end = (data) => {
+    try {
+      const json = JSON.parse(data);
+      const { data } = json;
+      const isSchemaRequest = data && data.__schema && data.__schema.queryType;
+
+      if (isSchemaRequest) {
+        // merge schemas
+      }
+
+      res.originalEnd(data);
+    }
+    catch(e) {
+      // console.log('e', e);
+      res.originalEnd(data);
+    }
+  };
+
+  postgraphql(config, publicSchema, options)(req, res, next);
+};
+
+export { pgqlMiddleware };
