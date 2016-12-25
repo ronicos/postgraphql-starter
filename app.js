@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(jwt);
-app.use(postgraphql.pgqlMiddleware);
+app.use(postgraphql.pgqlMiddleware());
 
 // app.use('/', index);
 // app.use('/users', users);
