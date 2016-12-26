@@ -14,6 +14,8 @@ var postgraphql = require('./bin/postgraphql');
 const { jwt } = require('./bin/jwt');
 
 var app = express();
+var { schema } = require('./bin/graphql-schema');
+const graphqlHTTP = require('express-graphql');
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +30,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(jwt);
 app.use(postgraphql.pgqlMiddleware());
+app.use('/graphql', graphqlHTTP({
+  schema,
+  graphiql: true
+}));
 
 // app.use('/', index);
 // app.use('/users', users);
