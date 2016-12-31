@@ -33,7 +33,7 @@
 }, {
   "firstName": "guest 1",
     "lastName": "CoH",
-  "email": "r@n.coh",
+  "email": "r@n2.coh",
   "age": 22,
   "active": true,
   "role": "inactive_user",

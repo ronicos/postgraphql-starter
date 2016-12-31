@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --debug -L ./bin/www"
+    "start": "nodemon --debug -L ./bin/www --ignore ./data",
+    "generate-postgres-schema": "node ./scripts/generate-postgres-schema",
+    "generate-custom-schema": "node ./scripts/generate-custom-schema",
+    "merge-schemas": "node ./scripts/merge-schemas"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
@@ -13,11 +16,14 @@
     "graphql": "^0.8.2",
     "jade": "~1.11.0",
     "jsonwebtoken": "^7.2.1",
+    "lodash": "^4.17.3",
     "morgan": "~1.7.0",
     "pg": "^6.1.0",
     "pg-hstore": "^2.3.2",
     "postgraphql": "^2.3.0",
     "react-dom": "^15.4.1",
+    "relay-composite-network-layer": "0.0.4",
+    "request": "^2.79.0",
     "sequelize": "^3.27.0",
     "serve-favicon": "~2.3.0"
   },

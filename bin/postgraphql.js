@@ -1,26 +1,6 @@
 import postgraphql from 'postgraphql'
-import { secret, publicSchema } from '../config/config.json';
-import { graphql } from 'graphql';
-
-const config = {
-  user: 'authenticator', //env var: PGUSER
-  database: 'favz', //env var: PGDATABASE
-  password: 'As121212', //env var: PGPASSWORD
-  host: 'localhost', // Server hosting the postgres database
-  port: 5432, //env var: PGPORT
-};
-
-const options = {
-  graphiql: true,
-  graphqlRoute: '/graphql-postgres',
-  graphiqlRoute: '/graphiql-postgres',
-  jwtSecret: secret,
-  pgDefaultRole: 'anonymous',
-  watchPg: true, // re-create graphql schema when db schema changes,
-  // jwtPgTypeIdentifier: 'favz_public.jwt_claims',
-  disableQueryLog: false,
-  enableCors: true,
-};
+import { secret, postgresPublicSchemaName } from '../config/config.json';
+import _ from 'lodash';
 
 const pgqlMiddleware = (schema) => (req, res, next) => {
 
@@ -34,9 +14,9 @@ const pgqlMiddleware = (schema) => (req, res, next) => {
         const isSchemaRequest = data && data.__schema && data.__schema.queryType;
 
         if (isSchemaRequest) {
-          graphql(schema).then((r) => {
-            res.originalEnd(JSON.stringify(r));
-          });
+          const mergedSchema = _.merge(json, schema);
+
+          res.originalEnd(JSON.stringify(mergedSchema));
         }
         else {
           res.originalEnd(resData);
@@ -49,7 +29,7 @@ const pgqlMiddleware = (schema) => (req, res, next) => {
     };
   }
 
-  postgraphql(config, publicSchema, options)(req, res, next);
+  postgraphql(config, postgresPublicSchemaName, options)(req, res, next);
 };
 
 export { pgqlMiddleware };

@@ -2,7 +2,6 @@ import pg from 'pg';
 import Sequelize from 'sequelize';
 import { format } from '../extentions';
 import queries from './queries.json';
-import config from '../../config/config.json';
 import fs from 'fs';
 
 const query = (client, query) => {
@@ -18,10 +17,16 @@ const query = (client, query) => {
   });
 };
 
-const connect = (config) => {
+export const resolveConnectionString = (config) => {
   const { user, password }     = config.owner;
   const { host, db }           = config;
   const connectionString       = `postgres://${user}:${password}@${host}/${db}`;
+
+  return connectionString;
+};
+
+export const connect = (config) => {
+  const connectionString = resolveConnectionString(config);
 
   return new Promise((resolve, reject) => {
     pg.connect(connectionString, function (err, client, done) {
@@ -76,7 +81,7 @@ export const initTable = (sequelize, client, tableData) => {
     });
 };
 
-export const init = () => {
+export const init = (config) => {
   const { db } = config;
 
   return connect(config)
