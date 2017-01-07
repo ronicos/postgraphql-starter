@@ -54,9 +54,9 @@ export const drop = () => {
   const formatted                    = format(sql, postgresPublicSchemaName);
 
   const promise = Promise.all(tableNames.map((tableName) => {
-    return query(preTableDropSql)
+    return query(format(preTableDropSql, postgresPublicSchemaName, tableName))
       .then(() => dropTable(tableName, postgresPublicSchemaName))
-      .then(() => query(postTableDropSql));
+      .then(() => query(format(postTableDropSql, postgresPublicSchemaName, tableName)));
   }));
 
   return promise.then((res) => query(formatted));
