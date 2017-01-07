@@ -9,13 +9,10 @@ var bodyParser   = require('body-parser');
 var {postgraphql} = require('postgraphql');
 var cors = require('cors');
 
-var index       = require('./routes/index');
-var users       = require('./routes/users');
-
-const { jwt } = require('./bin/jwt');
+const { jwt } = require('./middlewares/jwt');
 
 var app                      = express();
-var { schema }               = require('./bin/graphql-schema');
+var { schema }               = require('./models/custom-schema');
 const graphqlHTTP            = require('express-graphql');
 const { introspectionQuery } = require('graphql/utilities');
 const { graphql }            = require('graphql');

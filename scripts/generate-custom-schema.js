@@ -3,7 +3,7 @@ require('babel-register');
 
 const fs = require('fs');
 const path = require('path');
-const { schema } = require('../bin/graphql-schema');
+const { schema } = require('../infrastructure/graphql-schema');
 const { graphql }  = require('graphql');
 const { introspectionQuery, printSchema } = require('graphql/utilities');
 

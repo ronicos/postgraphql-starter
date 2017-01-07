@@ -5,7 +5,7 @@ import {
   GraphQLNonNull
 } from 'graphql';
 
-import { userRepository } from '../models/user/user-reposirory';
+import { userRepository } from './user/user-reposirory';
 
 const viewerType = new GraphQLObjectType({
   name: 'viewer',

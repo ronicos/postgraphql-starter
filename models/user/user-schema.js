@@ -1,5 +1,4 @@
 import Sequelize from 'sequelize';
-import config from '../../config/config.json';
 
 const userSchema = {
   _id: {

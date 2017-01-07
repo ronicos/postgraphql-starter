@@ -1,6 +1,0 @@
-{
-  "dropDB": "DROP DATABASE if exists {0}",
-  "createDB": "CREATE DATABASE {0}",
-  "createRole": "DROP role if exists {0}; CREATE role {0} WITH LOGIN PASSWORD '{1}' SUPERUSER CREATEDB CREATEROLE REPLICATION;",
-  "pgcrypto" : "create extension if not exists pgcrypto;"
-}

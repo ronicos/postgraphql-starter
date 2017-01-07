@@ -1,30 +1,34 @@
 require('babel-register');
 
-const init = require('./bin/db/db').init;
+const { init } = require('./infrastructure/db-generator');
 const jwt = require('jsonwebtoken');
 const config = require('./config/config.json');
 
-// // init db
-// init(config).then((res) => {
-//   console.log('res', res);
-// }).catch((err) => {
-//   console.log('err', err);
-// });
-
-// generate token
-const expiresIn = Math.floor(Date.now() / 1000) + (60 * 60 * 60);
-const payload = {
-  role: 'active_user',
-  exp: expiresIn
-};
-const options = {
-  audience: 'postgraphql'
+const initDb = () => {
+  init(config).then((res) => {
+    console.log('res', res);
+  }).catch((err) => {
+    console.log('err', err);
+  });
 };
 
-console.log('signing: ', payload);
-console.log('secret: ', config.secret);
+const generateToken = () => {
+  const expiresIn = Math.floor(Date.now() / 1000) + (60 * 60 * 60);
+  const payload = {
+    role: 'active_user',
+    exp: expiresIn
+  };
+  const options = {
+    audience: 'postgraphql'
+  };
 
-const token = jwt.sign(payload, config.secret, options);
+  console.log('signing: ', payload);
+  console.log('secret: ', config.secret);
 
-console.log('token', token);
+  const token = jwt.sign(payload, config.secret, options);
 
+  console.log('token', token);
+};
+
+
+initDb();

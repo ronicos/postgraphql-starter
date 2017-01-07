@@ -1,4 +1,4 @@
-import { sequelize } from './../../bin/sequelize';
+import { sequelize } from '../../helpers/sequelize';
 import { userSchema } from './user-schema';
 import { sign } from 'jsonwebtoken';
 import config from '../../config/config.json';
