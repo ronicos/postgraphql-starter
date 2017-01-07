@@ -7,8 +7,8 @@ import {
 
 import { userRepository } from '../models/user/user-reposirory';
 
-const query = new GraphQLObjectType({
-  name: 'RootQuery',
+const viewerType = new GraphQLObjectType({
+  name: 'viewer',
   fields: {
     login: {
       type: GraphQLString,
@@ -24,6 +24,18 @@ const query = new GraphQLObjectType({
   }
 });
 
+const rootQueryType = new GraphQLObjectType({
+  name: 'CustomQuery',
+  fields: {
+    viewer: {
+      type: viewerType,
+      resolve: () => {
+        return "success"
+      }
+    }
+  }
+});
+
 export const schema = new GraphQLSchema({
-  query
+  query: rootQueryType
 });

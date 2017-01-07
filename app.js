@@ -7,6 +7,7 @@ var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var {postgraphql} = require('postgraphql');
+var cors = require('cors');
 
 var index       = require('./routes/index');
 var users       = require('./routes/users');
@@ -31,6 +32,7 @@ const config = {
 };
 
 const options = {
+  classicIds: true,
   graphiql: true,
   graphqlRoute: '/graphql-postgres',
   graphiqlRoute: '/graphiql-postgres',
@@ -48,6 +50,7 @@ const options = {
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, 'public')));

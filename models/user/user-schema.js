@@ -2,6 +2,11 @@ import Sequelize from 'sequelize';
 import config from '../../config/config.json';
 
 const userSchema = {
+  _id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true // Automatically gets converted to SERIAL for postgres
+  },
   firstName: {
     type: Sequelize.STRING,
     allowNull: false,

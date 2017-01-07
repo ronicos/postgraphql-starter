@@ -71,10 +71,13 @@ export const initTable = (sequelize, client, tableData) => {
   const model = sequelize.define(name, schema, options);
   return query(client, revoke)
     .then(() => {
-      return model.sync();
+      return model.schema('demo').sync();
+    })
+    .catch((err) => {
+      return model.schema('demo').sync();
     })
     .then(() => {
-      return Promise.all(populateData.map((populateItem) => model.create(populateItem)));
+      return Promise.all(populateData.map((populateItem) => model.schema('demo').create(populateItem)));
     })
     .then(() => {
       return query(client, rules);

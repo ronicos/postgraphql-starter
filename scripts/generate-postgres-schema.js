@@ -1,38 +1,30 @@
 require('babel-register');
 
-const { resolveConnectionString } = require('../bin/db/db');
 const config                      = require('../config/config.json');
 const { postgraphql }             = require('postgraphql');
 const { introspectionQuery }      = require('graphql/utilities');
 const http                        = require('http');
 const fs                          = require('fs');
 const request                     = require('request');
+const path                        = require('path');
+const fetch                       = require('isomorphic-fetch');
+const fsp                         = require('fs-promise');
 
-const connectionString = resolveConnectionString(config);
-const options          = {
-  uri: 'http://localhost:3000/graphql',
-  json: {
-    query: introspectionQuery
-  }
+// introspect the schema from the graphql endpoint
+const fetchSchema = url => {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ query: introspectionQuery }),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.text())
 };
 
-const server = http.createServer(postgraphql(connectionString));
-
-server.listen(3000);
-server.on('error', (err) => console.log('err', err));
-server.on('listening', () => {
-
-  request.post(options, (error, response, body) => {
-
-      if (error) {
-        console.log('error', error);
-      }
-
-      if (!error && response.statusCode == 200) {
-        fs.writeFileSync('./data/postgres-schema.json', JSON.stringify(body, null, 2));
-
-        console.log('done');
-      }
-    }
-  );
-});
+fetchSchema(`http://localhost:${3000}/graphql-postgres`).then(json => {
+  return fsp.writeFile(
+    path.join(__dirname, '../data/postgres-schema.json'),
+    json
+  )
+})
+  .then(() => console.log('The schema.json file was successfully created'))
+  .catch(err => console.log(`There was an error fetching the GraphQL schema. ${err}`));
