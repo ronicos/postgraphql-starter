@@ -1,16 +1,20 @@
 import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize('favz', 'authenticator', 'As121212', {
-  host: 'localhost',
-  dialect: 'postgres',
-  define: {
-    schema: 'demo'
-  },
-  pool: {},
+import config from '../config/config.json';
 
-});
+const initSequelize = (config) => {
+  const { user, password } = config.auth;
+  const { host, db }       = config;
 
-sequelize.sync();
+  return new Sequelize(db, user, password, {
+    host,
+    dialect: 'postgres',
+
+    pool: {},
+  });
+};
+
+const sequelize = initSequelize(config);
 
 export {
   sequelize

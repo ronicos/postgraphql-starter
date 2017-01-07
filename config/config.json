@@ -2,12 +2,9 @@
   "host": "localhost",
   "db": "favz",
   "postgresPublicSchemaName": "demo",
-  "owner": {
-    "user": "postgres",
+  "auth": {
+    "user": "authenticator",
     "password": "As121212"
   },
-  "roles": {
-    "admin": "As121212"
-  },
-  "secret" : "test-secret"
+  "secret": "test-secret"
 }

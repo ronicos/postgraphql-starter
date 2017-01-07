@@ -1,61 +1,57 @@
-import Sequelize from 'sequelize';
 import fs from 'fs';
-import { query, connect, initTable } from '../helpers/pg-helper';
 
-const initSequelize = (config) => {
-  const { user, password } = config.owner;
-  const { host, db }       = config;
+import { query } from '../helpers/pg-helper';
+import config from '../config/config.json';
+import { format } from './extentions';
+import { sequelize } from '../helpers/sequelize';
 
-  const sequelize = new Sequelize(db, user, password, {
-    host,
-    dialect: 'postgres',
+const tableNames = ['user'];
 
-    pool: {},
-  });
+const createTable = (tableName, postgresPublicSchemaName) => {
+  const path           = `../models/${tableName}`;
+  const { schema }     = require(`${path}/${tableName}-schema`);
+  const populateData   = require(`${path}/${tableName}-pre-defined-data.json`);
+  const options        = {
+    freezeTableName: true,
+    schema: postgresPublicSchemaName
+  };
+  const rules          = fs.readFileSync(__dirname + `/${path}/${tableName}-access-rules.sql`, "utf-8");
+  const model          = sequelize.define(tableName, schema, options);
+  const formattedRules = format(rules, postgresPublicSchemaName, tableName);
 
-  return Promise.resolve(sequelize);
+  return model.schema(postgresPublicSchemaName).sync()
+    .then(() => {
+      return Promise.all(populateData.map((populateItem) => model.schema(postgresPublicSchemaName)
+        .create(populateItem)));
+    })
+    .then(() => {
+      return query(formattedRules);
+    });
 };
 
-export const init = (config) => {
-  const { db } = config;
+const dropTable = (tableName, postgresPublicSchemaName) => {
+  const revokeSql    = fs.readFileSync(__dirname + `/../models/${tableName}/${tableName}-access-rules-revoke.sql`, "utf-8");
+  const formattedSql = format(revokeSql, postgresPublicSchemaName, tableName);
 
-  return connect(config)
-    .then((client) => {
-      return query(client, `create schema if not exists ${config.db};`)
-        .then((res) => {
-          return initSequelize(config)
-            .then((sequelize) => {
-              const { userSchema } = require('../models/user/user-schema');
-              const populateData   = require('../models/user/user-pre-defined-data.json');
-              const name           = 'user';
-              const options        = {
-                freezeTableName: true,
-                schema: config.publicSchema
-              };
-              const rules          = fs.readFileSync(__dirname + '/../models/user/user-access-rules.sql', "utf-8");
-              const revoke         = fs.readFileSync(__dirname + '/../models/user/user-access-rules-revoke.sql', "utf-8");
+  return query(formattedSql)
+};
 
-              // reset
-              // const rules        = ';';
-              // populateData.length = 0;
+export const create = () => {
+  const { postgresPublicSchemaName } = config;
+  const sql                          = fs.readFileSync(__dirname + '/db-generator.sql', "utf-8");
+  const formatted                    = format(sql, postgresPublicSchemaName);
 
-              const tableData = {
-                name,
-                schema: userSchema,
-                options,
-                populateData,
-                rules,
-                revoke
-              };
+  const promise = Promise.all(tableNames.map((tableName) => createTable(tableName, postgresPublicSchemaName)));
 
-              console.log('config.schema', config.postgresPublicSchemaName);
+  return query(formatted).then(promise);
+};
 
-              initTable(sequelize, client, tableData, config.postgresPublicSchemaName)
-                .catch((err) => console.error('err', err))
-                .then(() => {
-                  console.log('done');
-                });
-            });
-        });
-    });
+export const drop = () => {
+  const { postgresPublicSchemaName } = config;
+  const sql                          = fs.readFileSync(__dirname + '/db-generator-drop.sql', "utf-8");
+  const formatted                    = format(sql, postgresPublicSchemaName);
+
+  const promise = Promise.all(tableNames.map((tableName) => dropTable(tableName, postgresPublicSchemaName)));
+
+  return promise.then((res) => query(formatted));
 };

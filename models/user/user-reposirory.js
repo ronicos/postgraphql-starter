@@ -1,5 +1,5 @@
 import { sequelize } from '../../helpers/sequelize';
-import { userSchema } from './user-schema';
+import { schema } from './user-schema';
 import { sign } from 'jsonwebtoken';
 import config from '../../config/config.json';
 
@@ -10,7 +10,7 @@ const options        = {
 
 class UserRepository {
   constructor() {
-    this.User = sequelize.define('user', userSchema, options);
+    this.User = sequelize.define('user', schema, options);
   }
 
   login(email, password) {

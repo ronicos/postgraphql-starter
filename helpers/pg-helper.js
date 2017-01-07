@@ -1,36 +1,46 @@
 import pg from 'pg';
 
 import { format } from '../infrastructure/extentions';
+import config from '../config/config.json';
+
+let client            = null;
+let connectionPromise = null;
 
 const resolveConnectionString = (config) => {
-  const { user, password }     = config.owner;
+  const { user, password }     = config.auth;
   const { host, db }           = config;
   const connectionString       = `postgres://${user}:${password}@${host}/${db}`;
 
   return connectionString;
 };
 
-const query = (client, query) => {
-  return new Promise((resolve, reject) => {
+const query = (query) => {
+  const createPromise = () => new Promise((resolve, reject) => {
+    console.log('executing: ', query);
     client.query(query, function (err, res) {
 
       if (err) {
+        console.log('err', err);
+
         return reject(err);
       }
 
+      console.log('success');
       resolve(res);
     });
   });
+
+  return connectionPromise ? connectionPromise.then(createPromise) : createPromise();
 };
 
-const dropDB = (client, dbName) => {
+const dropDB = (dbName) => {
   const dropQuery = 'DROP DATABASE if exists {0}';
   const dropDB    = format(dropQuery, dbName);
 
   return query(client, dropDB);
 };
 
-const createDB = (client, dbName) => {
+const createDB = (dbName) => {
   const createQuery = 'CREATE DATABASE {0}';
   const createDB    = format(createQuery, dbName);
 
@@ -51,30 +61,15 @@ const connect = (config) => {
   });
 };
 
-const initTable = (sequelize, client, tableData, pgSchema) => {
-  const { name, schema, options, populateData, rules, revoke } = tableData;
-
-  const model = sequelize.define(name, schema, options);
-  return query(client, revoke)
-    .then(() => {
-      return model.schema(pgSchema).sync();
-    })
-    .catch((err) => {
-      return model.schema(pgSchema).sync();
-    })
-    .then(() => {
-      return Promise.all(populateData.map((populateItem) => model.schema(pgSchema).create(populateItem)));
-    })
-    .then(() => {
-      return query(client, rules);
-    });
-};
+connectionPromise = connect(config).then((_client) => {
+  client            = _client;
+  connectionPromise = null;
+});
 
 export {
   query,
   dropDB,
   createDB,
   connect,
-  resolveConnectionString,
-  initTable
+  resolveConnectionString
 }

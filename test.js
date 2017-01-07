@@ -1,18 +1,25 @@
 require('babel-register');
 
-const { init } = require('./infrastructure/db-generator');
+const { create, drop } = require('./infrastructure/db-generator');
 const jwt = require('jsonwebtoken');
-const config = require('./config/config.json');
 
-const initDb = () => {
-  init(config).then((res) => {
+const createDb = () => {
+  create().then((res) => {
     console.log('res', res);
   }).catch((err) => {
     console.log('err', err);
   });
 };
 
-const generateToken = () => {
+const dropDb = () => {
+  drop().then((res) => {
+    console.log('res', res);
+  }).catch((err) => {
+    console.log('err', err);
+  });
+};
+
+const generateTokeזn = () => {
   const expiresIn = Math.floor(Date.now() / 1000) + (60 * 60 * 60);
   const payload = {
     role: 'active_user',
@@ -30,5 +37,4 @@ const generateToken = () => {
   console.log('token', token);
 };
 
-
-initDb();
+createDb();

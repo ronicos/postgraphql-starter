@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const userSchema = {
+const schema = {
   _id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -56,4 +56,4 @@ const userSchema = {
   }
 };
 
-export { userSchema };
+export { schema };
