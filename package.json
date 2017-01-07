@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --debug -L ./bin/www --ignore ./data",
+    "start": "nodemon --debug -L ./www --ignore ./data",
     "generate-postgres-schema": "node ./scripts/generate-postgres-schema",
     "generate-custom-schema": "node ./scripts/generate-custom-schema",
     "merge-schemas": "node ./scripts/merge-schemas"

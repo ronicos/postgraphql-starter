@@ -49,9 +49,15 @@ export const create = () => {
 export const drop = () => {
   const { postgresPublicSchemaName } = config;
   const sql                          = fs.readFileSync(__dirname + '/db-generator-drop.sql', "utf-8");
+  const preTableDropSql              = fs.readFileSync(__dirname + '/db-generator-pre-table-drop.sql', "utf-8");
+  const postTableDropSql             = fs.readFileSync(__dirname + '/db-generator-post-table-drop.sql', "utf-8");
   const formatted                    = format(sql, postgresPublicSchemaName);
 
-  const promise = Promise.all(tableNames.map((tableName) => dropTable(tableName, postgresPublicSchemaName)));
+  const promise = Promise.all(tableNames.map((tableName) => {
+    return query(preTableDropSql)
+      .then(() => dropTable(tableName, postgresPublicSchemaName))
+      .then(() => query(postTableDropSql));
+  }));
 
   return promise.then((res) => query(formatted));
 };
