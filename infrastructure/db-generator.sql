@@ -17,5 +17,7 @@ $$ language 'plpgsql';
 grant active_user, inactive_user, anonymous to authenticator;
 
 create schema if not exists {0};
+create schema if not exists {0}_private;
 
 grant usage on schema {0} to anonymous, active_user, inactive_user;
+grant usage on schema {0}_private to anonymous, active_user, inactive_user;
