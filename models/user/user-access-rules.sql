@@ -19,7 +19,8 @@ create table if not exists {0}_private.{1}_account (
 create or replace view {0}.{1}_account as
 select
   actual._id as _id,
-  actual.role as role
+  actual.role as role,
+  actual.verified as verified
 from {0}_private.{1}_account as actual
 where actual.role = (select current_setting('jwt.claims.role'));
 
