@@ -20,6 +20,7 @@ create or replace view {0}.{1}_account as
 select
   actual._id as _id,
   actual.role as role
-from {0}_private.{1}_account as actual;
+from {0}_private.{1}_account as actual
+where actual.role = (select current_setting('jwt.claims.role'));
 
 grant select on table {0}_private.{1}_account to anonymous;
