@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 
+// by convention
 const schema = {
   _id: {
     type: Sequelize.INTEGER,
@@ -8,27 +9,12 @@ const schema = {
   },
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     defaultValue: null,
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: null,
-  },
-  role: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: null,
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: null,
-  },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     defaultValue: null,
   },
   age: {
@@ -38,22 +24,9 @@ const schema = {
   },
   active: {
     type: Sequelize.BOOLEAN,
-    allowNull: false,
+    allowNull: true,
     defaultValue: true,
   },
-  verified: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
-  createdAt: {
-    allowNull: false,
-    type: Sequelize.DATE
-  },
-  updatedAt: {
-    allowNull: false,
-    type: Sequelize.DATE
-  }
 };
 
 export { schema };

@@ -1,49 +1,38 @@
-[{
-  "firstName": "RoN 1",
+[
+  {
+    "firstName": "RoN 1",
     "lastName": "CoH",
-  "email": "r@n.coh",
-  "age": 22,
-  "active": true,
-  "role": "active_user",
-  "password": "123456"
-}, {
-  "firstName": "RoN 2",
+    "age": 22,
+    "active": true
+  },
+  {
+    "firstName": "RoN 2",
     "lastName": "CoH",
-  "email": "r@n.coh",
-  "age": 22,
-  "active": true,
-  "role": "inactive_user",
-  "password": "123456"
-}, {
-  "firstName": "RoN 3",
+    "age": 22,
+    "active": true
+  },
+  {
+    "firstName": "RoN 3",
     "lastName": "CoH",
-  "email": "r@n.coh",
-  "age": 22,
-  "active": true,
-  "role": "inactive_user",
-  "password": "123456"
-}, {
-  "firstName": "RoN 4",
+    "age": 22,
+    "active": true
+  },
+  {
+    "firstName": "RoN 4",
     "lastName": "CoH",
-  "email": "r@n.coh",
-  "age": 22,
-  "active": true,
-  "role": "inactive_user",
-  "password": "123456"
-}, {
-  "firstName": "guest 1",
+    "age": 22,
+    "active": true
+  },
+  {
+    "firstName": "guest 1",
     "lastName": "CoH",
-  "email": "r@n2.coh",
-  "age": 22,
-  "active": true,
-  "role": "inactive_user",
-  "password": "123456"
-}, {
-  "firstName": "guest 2",
+    "age": 22,
+    "active": true
+  },
+  {
+    "firstName": "guest 2",
     "lastName": "CoH",
-  "email": "r@n.coh",
-  "age": 22,
-  "active": true,
-  "role": "inactive_user",
-  "password": "123456"
-}]
+    "age": 22,
+    "active": true
+  }
+]

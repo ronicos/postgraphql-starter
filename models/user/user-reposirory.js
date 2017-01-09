@@ -1,43 +1,33 @@
 import { sequelize } from '../../helpers/sequelize';
 import { schema } from './user-schema';
-import { sign } from 'jsonwebtoken';
-import config from '../../config/config.json';
 
 const options        = {
   freezeTableName: true,
   schema: 'demo'
 };
 
-class UserRepository {
+export class UserRepository {
   constructor() {
     this.User = sequelize.define('user', schema, options);
   }
 
-  login(email, password) {
-    return this.User.findAll({
+  findOne(email, password) {
+    // replace findAll to finedOne
+    return this.User.findOne({
       where: {
         email: email
       }
     }).then((users) => {
 
       if (!users.length) {
-        return '';
+        return null;
       }
 
-      const user = users[0];
-      const expiresIn = Math.floor(Date.now() / 1000) + (60 * 60 * 60);
-      const payload = {
-        role: user.role,
-        exp: expiresIn
-      };
-      const options = {
-        audience: 'postgraphql'
-      };
-      const token = sign(payload, config.secret, options);
-
-      return token;
+      return users[0];
     })
   }
-}
 
-export const userRepository = new UserRepository();
+  create(phone, email, password) {
+    return this.User.create({ phone, email, password });
+  }
+}

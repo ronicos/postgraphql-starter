@@ -5,7 +5,7 @@ import {
   GraphQLNonNull
 } from 'graphql';
 
-import { userRepository } from './user/user-reposirory';
+import { userService } from './user/user-service';
 
 const viewerType = new GraphQLObjectType({
   name: 'viewer',
@@ -18,7 +18,18 @@ const viewerType = new GraphQLObjectType({
         }
       },
       resolve: (object, args, context) => {
-        return userRepository.login(args.email);
+        return userService.login(args.email);
+      },
+    },
+    register: {
+      type: GraphQLString,
+      args: {
+        email: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve: (object, args, context) => {
+        return userService.register(args.email);
       },
     }
   }
