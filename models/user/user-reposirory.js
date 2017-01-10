@@ -1,9 +1,10 @@
 import { sequelize } from '../../helpers/sequelize';
 import { schema } from './user-schema';
+import config from '../../config/config.json';
 
-const options        = {
+const options = {
   freezeTableName: true,
-  schema: 'demo'
+  schema: config.postgresPublicSchemaName
 };
 
 export class UserRepository {
@@ -12,18 +13,10 @@ export class UserRepository {
   }
 
   findOne(email, password) {
-    // replace findAll to finedOne
     return this.User.findOne({
       where: {
         email: email
       }
-    }).then((users) => {
-
-      if (!users.length) {
-        return null;
-      }
-
-      return users[0];
     })
   }
 

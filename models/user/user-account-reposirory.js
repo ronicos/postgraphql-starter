@@ -1,9 +1,10 @@
 import { sequelize } from '../../helpers/sequelize';
 import { schema } from './user-schema';
+import config from '../../config/config.json';
 
 const options        = {
   freezeTableName: true,
-  schema: 'demo'
+  schema: config.postgresPublicSchemaName + '_private'
 };
 
 export class UserAccountRepository {
