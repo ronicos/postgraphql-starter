@@ -1,5 +1,5 @@
 require('babel-register');
 
-const { drop } = require('../infrastructure/db-generator');
+const { dbGenerator } = require('../infrastructure/db-generator');
 
-drop();
+dbGenerator.drop();

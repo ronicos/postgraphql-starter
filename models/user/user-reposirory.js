@@ -1,6 +1,7 @@
 import { sequelize } from '../../helpers/sequelize';
 import { schema } from './user-schema';
 import config from '../../config/config.json';
+import userConfig from './user-config.json';
 
 const options = {
   freezeTableName: true,
@@ -9,7 +10,7 @@ const options = {
 
 export class UserRepository {
   constructor() {
-    this.User = sequelize.define('user', schema, options);
+    this.User = sequelize.define(userConfig.tableName, schema, options);
   }
 
   findOne(email, password) {
