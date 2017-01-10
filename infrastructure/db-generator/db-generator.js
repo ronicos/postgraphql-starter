@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import { query } from '../../helpers/pg-helper';
 import config from '../../config/config.json';
 import { TableGenerator } from './table-generator';
@@ -7,7 +10,15 @@ class DatabaseGenerator extends AbstractGenerator {
   constructor(schemaName) {
     super(schemaName);
 
-    this.tableNames = ['user', 'user-account'];
+    this.tableNames = this.findTables();
+  }
+
+  findTables() {
+    const srcpath = __dirname + '/../../models';
+
+    return fs.readdirSync(srcpath).filter(function(file) {
+      return fs.statSync(path.join(srcpath, file)).isDirectory();
+    });
   }
 
   create() {
