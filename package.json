@@ -8,7 +8,8 @@
     "generate-custom-schema": "node ./scripts/generate-custom-schema",
     "merge-schemas": "node ./scripts/merge-schemas",
     "create-db": "node ./scripts/create-db",
-    "drop-db": "node ./scripts/drop-db"
+    "drop-db": "node ./scripts/drop-db",
+    "test": "node ./scripts/test"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

@@ -1,10 +1,12 @@
 import { sign } from 'jsonwebtoken';
 import config from '../../config/config.json';
 import { UserRepository } from './user-reposirory';
+import { UserAccountRepository } from '../user-account/user-account-reposirory';
 
 class UserService {
   constructor() {
     this.repository = new UserRepository();
+    this.accountRepository = new UserAccountRepository();
   }
 
   login(email, password) {
@@ -26,7 +28,8 @@ class UserService {
   }
 
   register(phone, email, password) {
-    return this.repository.create(phone, email, password);
+    return this.accountRepository.create(phone, email, password, 'active_user')
+      .then((userAccount) => this.repository.create(userAccount._id));
   }
 }
 

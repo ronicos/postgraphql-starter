@@ -11,7 +11,7 @@ export class AbstractGenerator {
     this.schema = schema;
   }
 
-  loadQuery(file) {
+  loadQuery(file, ...params) {
 
     if (!file) {
       throw new Error('file is not defined');
@@ -19,6 +19,6 @@ export class AbstractGenerator {
 
     const content = fs.readFileSync(__dirname + '/' + file, "utf-8");
 
-    return format(content, this.schema, this.tableName);
+    return format(content, ...params);
   }
 }

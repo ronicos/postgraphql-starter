@@ -21,7 +21,7 @@ export class UserRepository {
     })
   }
 
-  create(phone, email, password) {
-    return this.User.create({ phone, email, password });
+  create(_id) {
+    return this.User.create({ _id });
   }
 }

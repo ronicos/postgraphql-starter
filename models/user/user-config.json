@@ -1,3 +1,4 @@
 {
-  "tableName": "user"
+  "tableName": "user",
+  "isPrivate": false
 }
