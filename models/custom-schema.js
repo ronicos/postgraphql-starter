@@ -29,7 +29,7 @@ const viewerType = new GraphQLObjectType({
         }
       },
       resolve: (object, args, context) => {
-        return userService.register(args.email);
+        return userService.register('', args.email, args.password);
       },
     }
   }

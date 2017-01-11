@@ -13,15 +13,11 @@ export class UserRepository {
     this.User = sequelize.define(userConfig.tableName, schema, options);
   }
 
-  findOne(email, password) {
-    return this.User.findOne({
-      where: {
-        email: email
-      }
-    })
+  findById(_id) {
+    return this.User.findOne({ where: { _id } })
   }
 
   create(_id) {
-    return this.User.create({ _id });
+    return this.User.create({ _id }).then((res) => res.dataValues);
   }
 }
