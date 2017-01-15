@@ -7,18 +7,34 @@ import {
 
 import { userService } from './user/user-service';
 
-const viewerType = new GraphQLObjectType({
-  name: 'viewer',
+const loginType = new GraphQLObjectType({
+  name: 'Login',
   fields: {
-    login: {
+    token: {
+      type: GraphQLString
+    }
+  }
+});
+
+const viewerType = new GraphQLObjectType({
+  name: 'Viewer',
+  fields: {
+    name: {
       type: GraphQLString,
+      resolve: () => 'viewer'
+    },
+    login: {
+      type: loginType,
       args: {
         email: {
           type: new GraphQLNonNull(GraphQLString)
         }
       },
       resolve: (object, args, context) => {
-        return userService.login(args.email);
+        return userService.login(args.email)
+          .then((res) => ({
+            token: res
+          }));
       },
     },
     register: {
