@@ -10,7 +10,7 @@ var cors = require('cors');
 const { jwt } = require('./middlewares/jwt');
 
 var app                      = express();
-var { schema }               = require('./models/custom-schema');
+var { schema }               = require('./graphql/custom-schema');
 const graphqlHTTP            = require('express-graphql');
 const { introspectionQuery } = require('graphql/utilities');
 const { graphql }            = require('graphql');

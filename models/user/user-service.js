@@ -10,32 +10,40 @@ class UserService {
   }
 
   login(email, password) {
-    return this.accountRepository.findOne(email, password)
+    return this.accountRepository.findOne(email)
       .then((user) => {
 
         if (!user) {
           throw new Error('wrong email or password');
         }
 
-        const expiresIn = Math.floor(Date.now() / 1000) + (60 * 60);
-        const payload   = {
-          _id: user._id,
-          role: user.role,
-          exp: expiresIn
-        };
-        const options   = {
-          audience: 'postgraphql'
-        };
-        const token     = sign(payload, config.secret, options);
-
-        return token;
+        return this.makeToken(user);
       });
   }
 
   register(phone, email, password) {
-    return this.accountRepository.create(phone, email, password, 'active_user')
-      .then((userAccount) => this.repository.create(userAccount._id))
-      .then((user) => "success");
+
+    return this.accountRepository.findOne(email, password)
+      .then((user) => {
+        if (user) {
+          throw new Error('User already exists')
+        }
+
+        return this.accountRepository.create(phone, email, password, 'active_user')
+          .then((userAccount) => this.repository.create(userAccount._id))
+          .then((user) => this.makeToken(user));
+      });
+  }
+
+  makeToken(user) {
+    const exp           = Math.floor(Date.now() / 1000) + (60 * 60);
+    const { _id, role } = user;
+    const audience      = 'postgraphql';
+    const payload       = { _id, role, exp };
+    const options       = { audience };
+    const token         = sign(payload, config.secret, options);
+
+    return token;
   }
 }
 

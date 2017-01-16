@@ -13,7 +13,7 @@ export class UserAccountRepository {
     this.User = sequelize.define(userConfig.tableName, schema, options);
   }
 
-  findOne(email, password) {
+  findOne(email) {
     return this.User.findOne({ where: { email } })
   }
 
