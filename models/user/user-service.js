@@ -56,14 +56,16 @@ class UserService {
   }
 
   resetPassword(email, newPassword, token) {
-    return verify(token, config.secret, (err) => {
-      if (err) {
-        throw new Error('Invalid token');
-      }
+    return new Promise((resolve, reject) => {
+      verify(token, config.secret, (err) => {
+        if (err) {
+          reject(new Error('Invalid token'));
+        }
 
-      const password = encrypt(newPassword);
+        const password = encrypt(newPassword);
 
-      return this.accountRepository.findByEmailAndUpdate(email, { password });
+        this.accountRepository.findByEmailAndUpdate(email, { password }).then(resolve);
+      });
     });
   }
 

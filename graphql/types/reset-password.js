@@ -27,6 +27,8 @@ export const resetPassword = {
   resolve: (object, args, context) => {
     const { email, password, token } = args;
 
-    return userService.resetPassword(email, password, token);
+    return userService.resetPassword(email, password, token)
+      .then(() => userService.login(email, password))
+      .then((token) => ({ token }));
   },
 };
