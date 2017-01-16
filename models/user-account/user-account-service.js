@@ -2,10 +2,10 @@ import { sign, verify } from 'jsonwebtoken';
 
 import { encrypt, isMatch } from '../../infrastructure/crypto';
 import config from '../../config/config.json';
-import { UserRepository } from './user-reposirory';
-import { UserAccountRepository } from '../user-account/user-account-reposirory';
+import { UserRepository } from '../user/user-reposirory';
+import { UserAccountRepository } from './user-account-reposirory';
 
-class UserService {
+class UserAccountService {
   constructor() {
     this.repository        = new UserRepository();
     this.accountRepository = new UserAccountRepository();
@@ -23,7 +23,7 @@ class UserService {
           throw new Error('Wrong password');
         }
 
-        return this.makeToken(user);
+        return this.makeToken(user, 60);
       });
   }
 
@@ -39,7 +39,7 @@ class UserService {
 
         return this.accountRepository.create(phone, email, encryptedPassword, 'active_user')
           .then((userAccount) => this.repository.create(userAccount._id))
-          .then((user) => this.makeToken(user));
+          .then(() => this.login(email, password));
       });
   }
 
@@ -51,26 +51,20 @@ class UserService {
           throw new Error('Email does not exists in the system');
         }
 
-        return this.makeToken(user);
+        return this.makeToken(user, 5);
       });
   }
 
   resetPassword(email, newPassword, token) {
-    return new Promise((resolve, reject) => {
-      verify(token, config.secret, (err) => {
-        if (err) {
-          reject(new Error('Invalid token'));
-        }
+    return this.verifyToken(token).then(() => {
+      const password = encrypt(newPassword);
 
-        const password = encrypt(newPassword);
-
-        this.accountRepository.findByEmailAndUpdate(email, { password }).then(resolve);
-      });
+      return this.accountRepository.findByEmailAndUpdate(email, { password });
     });
   }
 
-  makeToken(user) {
-    const exp           = Math.floor(Date.now() / 1000) + (60 * 60);
+  makeToken(user, minutes) {
+    const exp           = Math.floor(Date.now() / 1000) + (minutes * 60);
     const { _id, role } = user;
     const audience      = 'postgraphql';
     const payload       = { _id, role, exp };
@@ -79,6 +73,24 @@ class UserService {
 
     return token;
   }
+
+  verifyUser() {
+    const verified = true;
+
+    return this.accountRepository.findByEmailAndUpdate(email, { verified });
+  }
+
+  verifyToken(token) {
+    return new Promise((resolve, reject) => {
+      verify(token, config.secret, (err) => {
+        if (err) {
+          reject(new Error('Invalid token'));
+        }
+
+        resolve(true);
+      });
+    });
+  }
 }
 
-export const userService = new UserService();
+export const userAccountService = new UserAccountService();

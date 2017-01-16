@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
 
-import { userService } from '../../models/user/user-service';
+import { userAccountService } from '../../models/user-account/user-account-service';
 
 export const registerType = new GraphQLObjectType({
   name: 'Register',
@@ -22,6 +22,6 @@ export const register = {
     }
   },
   resolve: (object, args, context) => {
-    return userService.register('', args.email, args.password).then((token) => ({ token }));
+    return userAccountService.register('', args.email, args.password).then((token) => ({ token }));
   },
 };

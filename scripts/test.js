@@ -1,7 +1,7 @@
 require('babel-register');
 
-const { userService } = require('../models/user/user-service');
+const { userAccountService } = require('../models/user-account/user-account-service');
 const { dbGenerator } = require('../infrastructure/db-generator/db-generator');
 
-userService.register('', "r@n.comco3", 'As1212121')
+userAccountService.register('', "r@n.comco3", 'As1212121')
   .then((res) => console.log('res', res));

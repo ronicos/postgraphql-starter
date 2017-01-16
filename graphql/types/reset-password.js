@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
 
-import { userService } from '../../models/user/user-service';
+import { userAccountService } from '../../models/user-account/user-account-service';
 
 export const resetPasswordType = new GraphQLObjectType({
   name: 'ResetPassword',
@@ -27,8 +27,8 @@ export const resetPassword = {
   resolve: (object, args, context) => {
     const { email, password, token } = args;
 
-    return userService.resetPassword(email, password, token)
-      .then(() => userService.login(email, password))
+    return userAccountService.resetPassword(email, password, token)
+      .then(() => userAccountService.login(email, password))
       .then((token) => ({ token }));
   },
 };

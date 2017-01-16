@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
 
-import { userService } from '../../models/user/user-service';
+import { userAccountService } from '../../models/user-account/user-account-service';
 
 export const requestPasswordResetType = new GraphQLObjectType({
   name: 'RequestPasswordReset',
@@ -21,6 +21,6 @@ export const requestPasswordReset = {
   resolve: (object, args, context) => {
     const { email } = args;
 
-    return userService.requestPasswordReset(email).then((token) => ({ token }));
+    return userAccountService.requestPasswordReset(email).then((token) => ({ token }));
   },
 };
