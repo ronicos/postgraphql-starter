@@ -1,4 +1,4 @@
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 import { encrypt, isMatch } from '../../infrastructure/crypto';
 import config from '../../config/config.json';
@@ -41,6 +41,30 @@ class UserService {
           .then((userAccount) => this.repository.create(userAccount._id))
           .then((user) => this.makeToken(user));
       });
+  }
+
+  requestPasswordReset(email) {
+    return this.accountRepository.findOne(email)
+      .then((user) => {
+
+        if (!user) {
+          throw new Error('Email does not exists in the system');
+        }
+
+        return this.makeToken(user);
+      });
+  }
+
+  resetPassword(email, newPassword, token) {
+    return verify(token, config.secret, (err) => {
+      if (err) {
+        throw new Error('Invalid token');
+      }
+
+      const password = encrypt(newPassword);
+
+      return this.accountRepository.findByEmailAndUpdate(email, { password });
+    });
   }
 
   makeToken(user) {

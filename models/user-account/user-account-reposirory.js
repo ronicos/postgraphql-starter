@@ -18,7 +18,14 @@ export class UserAccountRepository {
   }
 
   create(phone, email, password, role) {
-    return this.User.create({ phone, email, password, role })
-      .then((res) => res.dataValues);
+    return this.User.create({ phone, email, password, role }).then((res) => res.dataValues);
+  }
+
+  findByEmailAndUpdate(email, user) {
+    return this.findOne(email).then((existingUser) => {
+      Object.assign(existingUser, user);
+
+      return existingUser.save();
+    });
   }
 }

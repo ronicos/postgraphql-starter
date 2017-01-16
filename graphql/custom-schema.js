@@ -6,6 +6,8 @@ import {
 
 import { login } from './types/login';
 import { register } from './types/register';
+import { requestPasswordReset } from './types/request-password-reset';
+import { resetPassword } from './types/reset-password';
 
 const viewerType = new GraphQLObjectType({
   name: 'Viewer',
@@ -16,6 +18,8 @@ const viewerType = new GraphQLObjectType({
     },
     login,
     register,
+    requestPasswordReset,
+    resetPassword
   }
 });
 

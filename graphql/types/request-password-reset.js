@@ -2,8 +2,8 @@ import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
 
 import { userService } from '../../models/user/user-service';
 
-export const loginType = new GraphQLObjectType({
-  name: 'Login',
+export const requestPasswordResetType = new GraphQLObjectType({
+  name: 'RequestPasswordReset',
   fields: {
     token: {
       type: GraphQLString
@@ -11,19 +11,16 @@ export const loginType = new GraphQLObjectType({
   }
 });
 
-export const login = {
-  type: loginType,
+export const requestPasswordReset = {
+  type: requestPasswordResetType,
   args: {
     email: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    password: {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
   resolve: (object, args, context) => {
-    const { email, password } = args;
+    const { email } = args;
 
-    return userService.login(email, password).then((token) => ({ token }));
+    return userService.requestPasswordReset(email).then((token) => ({ token }));
   },
 };
