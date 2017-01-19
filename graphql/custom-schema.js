@@ -17,9 +17,7 @@ const viewerType = new GraphQLObjectType({
       resolve: () => 'viewer'
     },
     login,
-    register,
     requestPasswordReset,
-    resetPassword
   }
 });
 
@@ -35,6 +33,15 @@ const rootQueryType = new GraphQLObjectType({
   }
 });
 
+const rootMutationType = new GraphQLObjectType({
+  name: 'CustomMutation',
+  fields: {
+    register,
+    resetPassword
+  }
+});
+
 export const schema = new GraphQLSchema({
-  query: rootQueryType
+  query: rootQueryType,
+  mutation: rootMutationType
 });
