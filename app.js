@@ -15,14 +15,15 @@ const { introspectionQuery } = require('graphql/utilities');
 const { graphql }            = require('graphql');
 const fs                     = require('fs');
 
-const { secret, postgresPublicSchemaName } = require('./config/config.json');
+const { secret, postgresPublicSchemaName, host, port, db, auth } = require('./config/config.json');
+const { user, password } = auth;
 
 const config = {
-  user: 'authenticator', //env var: PGUSER
-  database: 'favz', //env var: PGDATABASE
-  password: 'As121212', //env var: PGPASSWORD
-  host: 'localhost', // Server hosting the postgres database
-  port: 5432, //env var: PGPORT
+  user,
+  database: db,
+  password,
+  host,
+  port,
 };
 
 const options = {

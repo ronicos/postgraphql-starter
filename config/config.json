@@ -1,6 +1,7 @@
 {
   "host": "localhost",
   "db": "favz",
+  "port": 5432,
   "postgresPublicSchemaName": "demo",
   "auth": {
     "user": "authenticator",
