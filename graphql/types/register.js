@@ -7,15 +7,6 @@ import {
 
 import { userAccountService } from '../../models/user-account/user-account-service';
 
-export const registerType = new GraphQLObjectType({
-  name: 'Register',
-  fields: {
-    token: {
-      type: GraphQLString
-    }
-  }
-});
-
 const RegisterInputType = new GraphQLInputObjectType({
   name: 'RegisterInput',
   fields: {
@@ -24,16 +15,32 @@ const RegisterInputType = new GraphQLInputObjectType({
     },
     password: {
       type: new GraphQLNonNull(GraphQLString)
+    },
+    clientMutationId: {
+      type: GraphQLString
+    }
+  }
+});
+
+const RegisterPayloadType = new GraphQLObjectType({
+  name: 'RegisterPayload',
+  fields: {
+    token: {
+      type: GraphQLString
+    },
+    clientMutationId: {
+      type: GraphQLString
     }
   }
 });
 
 export const register = {
-  type: registerType,
+  name: 'Register',
+  type: RegisterPayloadType,
   args: {
-   input: {
-     type: new GraphQLNonNull(RegisterInputType)
-   }
+    input: {
+      type: new GraphQLNonNull(RegisterInputType)
+    }
   },
   resolve: (object, args, context) => {
     const { email, password } = args.input;
