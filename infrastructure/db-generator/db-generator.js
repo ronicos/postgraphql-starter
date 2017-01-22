@@ -22,7 +22,7 @@ class DatabaseGenerator extends AbstractGenerator {
   }
 
   create() {
-    const sql = super.loadQuery('db-create.sql', this.schema);
+    const sql = super.loadQuery('db-create.sql', this.schema, config.auth.user);
 
     const promise = Promise.all(this.tableNames.map((tableName) => {
       const table = new TableGenerator(tableName, this.schema, true);
